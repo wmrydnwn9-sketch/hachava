@@ -1,0 +1,5 @@
+
+> hachava-verified-static-site@1.0.0 build
+> node scripts/build.mjs
+
+Build completed successfully. Output: /mnt/data/hachava-verified/dist

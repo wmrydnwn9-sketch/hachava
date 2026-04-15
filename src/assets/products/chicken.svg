@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+<defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#5a3625"/><stop offset="100%" stop-color="#2b1b12"/></linearGradient></defs>
+<rect width="800" height="600" fill="url(#g)"/>
+<circle cx="640" cy="120" r="120" fill="#c6a063" fill-opacity="0.22"/>
+<circle cx="180" cy="440" r="160" fill="#3f5f3d" fill-opacity="0.28"/>
+<rect x="110" y="120" width="580" height="360" rx="34" fill="#1b120d" fill-opacity="0.35" stroke="#e8d0a6" stroke-opacity="0.35"/>
+<text x="400" y="300" text-anchor="middle" fill="#f5ead8" font-size="64" font-family="Arial">chicken</text>
+<text x="400" y="365" text-anchor="middle" fill="#dbc8ad" font-size="28" font-family="Arial">hachava visual</text>
+</svg>

@@ -1,34 +1,9 @@
 {
-  "name": "hachava",
+  "name": "hachava-verified-static-site",
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "typecheck": "tsc --noEmit"
-  },
-  "dependencies": {
-    "@hookform/resolvers": "^3.10.0",
-    "@react-email/components": "^0.0.28",
-    "@supabase/ssr": "^0.5.2",
-    "@supabase/supabase-js": "^2.56.0",
-    "lucide-react": "^0.468.0",
-    "next": "15.5.5",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "react-hook-form": "^7.53.1",
-    "resend": "^4.0.1",
-    "zod": "^3.23.8"
-  },
-  "devDependencies": {
-    "@types/node": "^22.10.1",
-    "@types/react": "^19.0.2",
-    "@types/react-dom": "^19.0.2",
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.17",
-    "typescript": "^5.7.2"
+    "build": "node scripts/build.mjs",
+    "start": "node -e \"require('http').createServer((req,res)=>res.end('Use a static server or Vercel to preview dist/')).listen(3000)\""
   }
 }

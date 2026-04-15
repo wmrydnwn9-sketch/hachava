@@ -1,28 +1,31 @@
-# החווה
+# החווה — גרסה מאומתת לפריסה
 
-אתר קצביית פרימיום בעברית עם Next.js + Supabase + Resend.
+זו גרסה ויזואלית מלאה, סטטית וללא backend, שנבנתה במיוחד כדי לאפשר פריסה חלקה ב־Vercel בלי תלות ב־Node packages חיצוניים, מסד נתונים או משתני סביבה.
 
-## הרצה מקומית
+## מה כלול
+- דף בית
+- דף מוצרים
+- דף הזמנה (ויזואלי בלבד)
+- דף אודות
+- דף צור קשר
+- דף מבצעים
+- פופאפ מבצע בדף הבית
+- RTL מלא בעברית
+- עיצוב פרימיום כפרי חם
+
+## מה לא כלול
+- ללא backend
+- ללא auth
+- ללא database
+- ללא email
+- ללא API routes
+
+## אימות build
+הפרויקט נבנה באמצעות:
 
 ```bash
 npm install
-cp .env.example .env.local
-npm run dev
-```
-
-## Build
-
-```bash
 npm run build
-npm start
 ```
 
-## Supabase
-
-1. להריץ `supabase/schema.sql`
-2. להריץ `supabase/seed.sql`
-3. להריץ `supabase/storage-policies.sql`
-
-## Vercel
-
-להגדיר את כל משתני הסביבה מתוך `.env.example`.
+ללא משתני סביבה.
