@@ -10,12 +10,12 @@ create table if not exists public.site_settings (
   instagram_url text not null default 'https://www.instagram.com/hachava_meat',
   address text not null default 'קניון גנים',
   hero_title text not null default 'בשר איכותי מהמשק',
-  hero_subtitle text not null default 'כשרות, טריות, איכות ושירות אישי ברמה גבוהה',
+  hero_subtitle text not null default 'קצביית פרימיום עם אווירה כפרית חמה, שירות אישי ובשר מובחר — מהמשק לצלחת.',
   about_title text not null default 'על החווה',
-  about_body text not null default 'בשר איכותי, טרי וכשר — מהמשק לצלחת.',
+  about_body text not null default 'בהחווה אנחנו מאמינים שבשר איכותי מתחיל במקצוענות, טריות וכבוד לחומר הגלם. אנו מגישים חוויית קנייה חמה, משפחתית ויוקרתית, עם הקפדה על איכות בלתי מתפשרת — מהמשק לצלחת.',
   kosher_label text not null default 'כשר',
-  map_embed_url text default 'https://www.google.com/maps?q=%D7%A7%D7%A0%D7%99%D7%95%D7%9F%20%D7%92%D7%A0%D7%99%D7%9D&output=embed',
-  logo_url text default '/logo.png',
+  map_embed_url text,
+  logo_url text,
   updated_at timestamptz not null default now()
 );
 
@@ -23,8 +23,8 @@ create table if not exists public.product_categories (
   id uuid primary key default gen_random_uuid(),
   slug text unique not null,
   name_he text not null,
-  sort_order integer not null default 0,
   image_url text,
+  sort_order integer not null default 0,
   is_active boolean not null default true,
   created_at timestamptz not null default now()
 );
@@ -35,8 +35,8 @@ create table if not exists public.products (
   name_he text not null,
   description_he text,
   image_url text,
-  is_active boolean not null default true,
   sort_order integer not null default 0,
+  is_active boolean not null default true,
   created_at timestamptz not null default now()
 );
 

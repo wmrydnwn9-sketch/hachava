@@ -1,31 +1,67 @@
-# החווה — גרסה מאומתת לפריסה
+# החווה — גרסת Vercel Static + Serverless
 
-זו גרסה ויזואלית מלאה, סטטית וללא backend, שנבנתה במיוחד כדי לאפשר פריסה חלקה ב־Vercel בלי תלות ב־Node packages חיצוניים, מסד נתונים או משתני סביבה.
+חבילת פריסה מלאה לאתר הקצבייה "החווה" עם:
+- אתר ציבורי מלא בעברית RTL
+- אזור ניהול
+- מערכת הזמנות
+- ניהול תוכן, מוצרים, מבצעים ומדיה
+- אחסון תמונות ב-Supabase Storage
+- שליחת מיילים דרך Resend
+- פריסה על Vercel ללא תלות בפריימוורק צד שלישי
 
-## מה כלול
-- דף בית
-- דף מוצרים
-- דף הזמנה (ויזואלי בלבד)
-- דף אודות
-- דף צור קשר
-- דף מבצעים
-- פופאפ מבצע בדף הבית
-- RTL מלא בעברית
-- עיצוב פרימיום כפרי חם
+## מה צריך להכין
 
-## מה לא כלול
-- ללא backend
-- ללא auth
-- ללא database
-- ללא email
-- ללא API routes
+### משתני סביבה ב-Vercel
+להגדיר את כל המשתנים הבאים:
 
-## אימות build
-הפרויקט נבנה באמצעות:
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `SUPABASE_STORAGE_BUCKET` (ברירת מחדל: `site-assets`)
+- `RESEND_API_KEY`
+- `RESEND_FROM`
+- `ADMIN_EMAIL`
+- `ADMIN_PASSWORD`
+- `ADMIN_COOKIE_SECRET`
+- `SITE_URL`
+- `WHATSAPP_URL`
 
+### Supabase
+בסביבת SQL Editor להריץ לפי הסדר:
+1. `supabase/schema.sql`
+2. `supabase/seed.sql`
+3. `supabase/storage-policies.sql`
+
+### Resend
+- ליצור API key
+- להגדיר sender מאומת ב-`RESEND_FROM`
+
+## בדיקה מקומית
 ```bash
 npm install
 npm run build
+python3 -m http.server 3000
 ```
 
-ללא משתני סביבה.
+## פריסה ל-Vercel
+1. להעלות את הפרויקט ל-GitHub
+2. לייבא את הריפו ב-Vercel
+3. להגדיר את כל משתני הסביבה
+4. לפרוס
+
+## נתיבי מערכת
+### ציבורי
+- `/`
+- `/products`
+- `/order`
+- `/about`
+- `/contact`
+- `/promotions`
+
+### ניהול
+- `/admin/login`
+- `/admin`
+- `/admin/orders`
+- `/admin/products`
+- `/admin/promotions`
+- `/admin/content`
+- `/admin/media`

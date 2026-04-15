@@ -1,5 +1,9 @@
 {
   "cleanUrls": true,
-  "trailingSlash": true,
-  "outputDirectory": "dist"
+  "trailingSlash": false,
+  "functions": {
+    "api/**/*.js": {
+      "runtime": "nodejs20.x"
+    }
+  }
 }
