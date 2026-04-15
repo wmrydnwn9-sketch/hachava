@@ -1,18 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-:root { --wood-dark:#1f140d; --gold-soft:#e7d29c; }
-html, body { margin:0; padding:0; background:#1f140d; }
-body { direction:rtl; font-family:Arial, Helvetica, sans-serif; }
-.site-bg { min-height:100vh; background-image: radial-gradient(circle at top, rgba(255,230,160,.08), transparent 28%), linear-gradient(rgba(18,12,8,.55), rgba(18,12,8,.68)), url('/wood-bg.svg'); background-size:cover; background-position:center; background-attachment:fixed; }
-.site-overlay::before, .site-overlay::after { content:''; position:fixed; top:0; width:190px; height:100vh; pointer-events:none; opacity:.9; background-repeat:no-repeat; background-size:contain; z-index:0; }
-.site-overlay::before { right:0; background-image:url('/vines-right.svg'); background-position:top right; }
-.site-overlay::after { left:0; background-image:url('/vines-left.svg'); background-position:top left; }
-.lamp-strip { background-image:url('/lamps-overlay.svg'); background-repeat:repeat-x; background-size:auto 120px; height:120px; opacity:.8; pointer-events:none; }
-.rustic-card { background:rgba(48,31,21,.82); border:1px solid rgba(201,169,106,.42); box-shadow:0 14px 40px rgba(0,0,0,.28); backdrop-filter:blur(6px); }
-.gold-text { color:var(--gold-soft); }
-.gold-btn { background:linear-gradient(180deg,#d8bc7d 0%,#b68b45 100%); color:#2a1b11; border:1px solid #f1deab; transition:filter .2s ease; }
-.gold-btn:hover { filter:brightness(1.05); }
-.gold-outline-btn { border:1px solid rgba(231,210,156,.45); background:rgba(0,0,0,.18); color:#f5efe2; }
-.field { width:100%; border-radius:1rem; border:1px solid rgba(231,210,156,.22); background:rgba(12,8,6,.45); padding:.85rem 1rem; color:white; }
-.field::placeholder { color:rgba(255,255,255,.7); }
+:root {
+  --wood-dark: #2d1f14;
+  --wood-mid: #4c3221;
+  --gold: #c9a96a;
+  --gold-soft: #e4cc92;
+}
+html, body { margin: 0; padding: 0; background: #1e140d; }
+body { font-family: Arial, Helvetica, sans-serif; }
+.site-bg {
+  background-image: linear-gradient(rgba(18,12,8,0.55), rgba(18,12,8,0.65)), url('/wood-bg.jpg');
+  background-size: cover; background-attachment: fixed; background-position: center;
+}
+.site-overlay::before, .site-overlay::after {
+  content: ''; position: fixed; top: 0; width: 180px; height: 100vh; z-index: 0;
+  background-repeat: no-repeat; background-size: contain; opacity: 0.82; pointer-events: none;
+}
+.site-overlay::before { right: 0; background-image: url('/vines-right.png'); background-position: top right; }
+.site-overlay::after { left: 0; background-image: url('/vines-left.png'); background-position: top left; }
+.rustic-card {
+  background: rgba(48, 31, 21, 0.82); border: 1px solid rgba(201, 169, 106, 0.45);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.28); backdrop-filter: blur(6px);
+}
+.gold-text { color: var(--gold-soft); }
+.gold-btn { background: linear-gradient(180deg, #d8bc7d 0%, #b68b45 100%); color: #2a1b11; border: 1px solid #f1deab; }
+.gold-btn:hover { filter: brightness(1.05); }
+.input-base { width: 100%; border-radius: 1rem; border: 1px solid rgba(253,230,138,.2); background: rgba(12,10,9,.5); color: rgb(245 245 244); padding: .75rem 1rem; }
