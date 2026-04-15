@@ -1,5 +1,42 @@
-import { UpdateOrderStatusForm } from '@/components/admin/update-order-status-form';
 import { requireAdmin } from '@/lib/auth';
-import { formatDate, formatOrderType } from '@/lib/format';
 import { supabaseAdmin } from '@/lib/supabase/admin';
-export default async function AdminOrdersPage(){ await requireAdmin(); const { data: orders } = await supabaseAdmin.from('orders').select('*, order_items(*)').order('created_at',{ascending:false}); return <section><h1 className="mb-8 text-4xl font-black gold-text">ניהול הזמנות</h1><div className="space-y-6">{orders?.map((order:any)=><article key={order.id} className="rustic-card rounded-4xl p-6"><div className="grid gap-4 md:grid-cols-[1.3fr_1fr_auto] md:items-start"><div><h2 className="text-2xl font-bold gold-text">{order.customer_name}</h2><p className="mt-2">טלפון: {order.phone}</p><p>כתובת: {order.address || 'ללא'}</p><p>סוג הזמנה: {formatOrderType(order.order_type)}</p><p>נוצרה בתאריך: {formatDate(order.created_at)}</p><p>הערות: {order.notes || 'ללא'}</p></div><div><p className="mb-2 font-bold">פריטים</p><ul className="space-y-2 text-stone-200">{order.order_items?.map((item:any)=><li key={item.id}>• {item.product_name_snapshot} — {item.quantity}</li>)}</ul></div><UpdateOrderStatusForm id={order.id} currentStatus={order.status} /></div></article>)}</div></section>; }
+import { UpdateOrderStatusForm } from '@/components/admin/update-order-status-form';
+
+export default async function AdminOrdersPage() {
+  await requireAdmin();
+
+  const { data: orders } = await supabaseAdmin
+    .from('orders')
+    .select('*, order_items(*)')
+    .order('created_at', { ascending: false });
+
+  return (
+    <section className="mx-auto max-w-7xl px-4 py-12">
+      <h1 className="mb-8 text-4xl font-black gold-text">ניהול הזמנות</h1>
+      <div className="space-y-6">
+        {orders?.map((order: any) => (
+          <article key={order.id} className="rustic-card rounded-[2rem] p-6">
+            <div className="grid gap-4 md:grid-cols-[1.2fr_1fr_auto] md:items-start">
+              <div>
+                <h2 className="text-2xl font-bold gold-text">{order.customer_name}</h2>
+                <p className="mt-2">טלפון: {order.phone}</p>
+                <p>כתובת: {order.address || 'ללא'}</p>
+                <p>סוג הזמנה: {order.order_type === 'delivery' ? 'משלוח' : 'איסוף עצמי'}</p>
+                <p>הערות: {order.notes || 'ללא'}</p>
+              </div>
+              <div>
+                <p className="mb-2 font-bold">פריטים</p>
+                <ul className="space-y-2 text-stone-200">
+                  {order.order_items?.map((item: any) => (
+                    <li key={item.id}>• {item.product_name_snapshot} — {item.quantity}</li>
+                  ))}
+                </ul>
+              </div>
+              <UpdateOrderStatusForm id={order.id} currentStatus={order.status} />
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}

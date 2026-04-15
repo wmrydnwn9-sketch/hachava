@@ -1,7 +1,14 @@
-insert into public.site_settings (business_name,slogan,phone,whatsapp_url,email,instagram_url,address,map_embed_url,logo_url)
-select 'החווה','מהמשק לצלחת','050-0000000','https://wa.me/972500000000','hachava2026@gmail.com','https://www.instagram.com/hachava_meat','קניון גנים','https://www.google.com/maps?q=%D7%A7%D7%A0%D7%99%D7%95%D7%9F%20%D7%92%D7%A0%D7%99%D7%9D&output=embed','/logo.png'
-where not exists (select 1 from public.site_settings);
-insert into public.product_categories (slug,name_he,sort_order,image_url) values ('beef','בקר',1,'/products/beef.svg'),('chicken','עוף',2,'/products/chicken.svg'),('burgers','בורגרים',3,'/products/burgers.svg'),('lamb','טלה',4,'/products/lamb.svg'),('sausages','נקניקיות',5,'/products/sausages.svg'),('wine','יין',6,'/products/wine.svg'),('spices','תבלינים',7,'/products/spices.svg'),('hosting-accessories','אביזרי אירוח',8,'/products/hosting.svg') on conflict (slug) do update set image_url = excluded.image_url;
-with category_map as (select id, slug from public.product_categories)
-insert into public.products (category_id, name_he, description_he, sort_order)
-select c.id, p.name_he, p.description_he, p.sort_order from category_map c join (values ('beef','אנטריקוט','נתח איכותי לצלייה',1),('beef','אסאדו','לבישול ארוך או עישון',2),('chicken','פרגיות','טרי ונקי',1),('chicken','כרעיים','לבישול או אפייה',2),('burgers','קציצות המבורגר','תערובת פרימיום',1),('lamb','צלעות טלה','עשיר בטעם',1),('sausages','נקניקיות הבית','מתובלות בעדינות',1),('wine','יין אדום','ליווי מושלם לאירוח',1),('spices','תערובת לגריל','תיבול עשיר לבשר',1),('hosting-accessories','מגש אירוח','להגשה אלגנטית',1)) as p(slug,name_he,description_he,sort_order) on c.slug = p.slug where not exists (select 1 from public.products existing where existing.category_id = c.id and existing.name_he = p.name_he);
+insert into public.site_settings (business_name, slogan, phone, whatsapp_url, email, instagram_url, address, logo_url)
+values ('החווה', 'מהמשק לצלחת', '050-0000000', 'https://wa.me/972500000000', 'hachava2026@gmail.com', 'https://www.instagram.com/hachava_meat', 'קניון גנים', '/logo.png')
+on conflict do nothing;
+
+insert into public.product_categories (slug, name_he, sort_order, image_url) values
+('beef', 'בקר', 1, '/products/beef.svg'),
+('chicken', 'עוף', 2, '/products/chicken.svg'),
+('burgers', 'בורגרים', 3, '/products/burgers.svg'),
+('lamb', 'טלה', 4, '/products/lamb.svg'),
+('sausages', 'נקניקיות', 5, '/products/sausages.svg'),
+('wine', 'יין', 6, '/products/wine.svg'),
+('spices', 'תבלינים', 7, '/products/spices.svg'),
+('hosting-accessories', 'אביזרי אירוח', 8, '/products/hosting.svg')
+on conflict (slug) do nothing;

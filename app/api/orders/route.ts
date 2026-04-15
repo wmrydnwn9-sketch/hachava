@@ -1,5 +1,60 @@
 import { NextResponse } from 'next/server';
-import { sendOrderEmail } from '@/lib/mail';
 import { supabaseAdmin } from '@/lib/supabase/admin';
 import { orderSchema } from '@/lib/validations';
-export async function POST(request: Request){ try{ const json = await request.json(); const parsed = orderSchema.safeParse(json); if(!parsed.success){ return NextResponse.json({ error:'טופס ההזמנה אינו תקין' },{ status:400 }); } const { customer_name, phone, address, notes, order_type, items } = parsed.data; const { data: rpcData, error: rpcError } = await supabaseAdmin.rpc('create_order_with_items',{ p_customer_name: customer_name, p_phone: phone, p_address: address || null, p_notes: notes || null, p_order_type: order_type, p_items: items }); if(rpcError) throw rpcError; const { data: orderItems, error: itemsError } = await supabaseAdmin.from('order_items').select('product_name_snapshot, quantity').eq('order_id', rpcData); if(itemsError) throw itemsError; await sendOrderEmail({ customerName: customer_name, phone, address, notes, orderType: order_type, items: (orderItems || []).map((item)=>({ name:item.product_name_snapshot, quantity:item.quantity })) }); return NextResponse.json({ ok:true, order_id: rpcData }); } catch(error){ console.error(error); return NextResponse.json({ error:'אירעה שגיאה ביצירת ההזמנה' },{ status:500 }); } }
+import { sendOrderEmail } from '@/lib/mail';
+
+export async function POST(request: Request) {
+  try {
+    const json = await request.json();
+    const parsed = orderSchema.safeParse(json);
+
+    if (!parsed.success) {
+      return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
+    }
+
+    const { customer_name, phone, address, notes, order_type, items } = parsed.data;
+
+    const { data: products, error: productsError } = await supabaseAdmin
+      .from('products')
+      .select('id, name_he')
+      .in('id', items.map((item) => item.product_id));
+
+    if (productsError) throw productsError;
+
+    const nameMap = new Map(products?.map((p) => [p.id, p.name_he]));
+
+    const { data: order, error: orderError } = await supabaseAdmin
+      .from('orders')
+      .insert({ customer_name, phone, address, notes, order_type, status: 'pending' })
+      .select('id')
+      .single();
+
+    if (orderError) throw orderError;
+
+    const payloadItems = items.map((item) => ({
+      order_id: order.id,
+      product_id: item.product_id,
+      product_name_snapshot: nameMap.get(item.product_id) || 'מוצר',
+      quantity: item.quantity,
+    }));
+
+    const { error: itemsError } = await supabaseAdmin.from('order_items').insert(payloadItems);
+    if (itemsError) throw itemsError;
+
+    if (process.env.RESEND_API_KEY) {
+      await sendOrderEmail({
+        customerName: customer_name,
+        phone,
+        address,
+        notes,
+        orderType: order_type,
+        items: payloadItems.map((item) => ({ name: item.product_name_snapshot, quantity: item.quantity })),
+      });
+    }
+
+    return NextResponse.json({ ok: true, order_id: order.id });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: 'Failed to create order' }, { status: 500 });
+  }
+}
