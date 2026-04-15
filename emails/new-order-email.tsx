@@ -1,0 +1,6 @@
+import * as React from 'react';
+import { Body, Container, Head, Heading, Html, Preview, Section, Text } from '@react-email/components';
+import { formatOrderType } from '@/lib/format';
+export function NewOrderEmail(props:{ customerName:string; phone:string; address?:string; notes?:string; orderType:'delivery'|'pickup'; items:Array<{name:string; quantity:number}>; }){
+  return (<Html lang="he" dir="rtl"><Head /><Preview>הזמנה חדשה מאתר החווה</Preview><Body style={{ backgroundColor:'#f5efe4', fontFamily:'Arial, sans-serif', color:'#2d1f14' }}><Container style={{ background:'#fff9f0', padding:'24px', border:'1px solid #c9a96a', margin:'24px auto' }}><Heading>הזמנה חדשה מהאתר</Heading><Text><strong>שם:</strong> {props.customerName}</Text><Text><strong>טלפון:</strong> {props.phone}</Text><Text><strong>סוג הזמנה:</strong> {formatOrderType(props.orderType)}</Text><Text><strong>כתובת:</strong> {props.address || 'לא הוזנה'}</Text><Text><strong>הערות:</strong> {props.notes || 'ללא'}</Text><Section style={{ marginTop:'20px' }}><Heading as="h2" style={{ fontSize:'20px' }}>פרטי ההזמנה</Heading>{props.items.map((item)=><Text key={`${item.name}-${item.quantity}`}>• {item.name} — כמות: {item.quantity}</Text>)}</Section></Container></Body></Html>);
+}

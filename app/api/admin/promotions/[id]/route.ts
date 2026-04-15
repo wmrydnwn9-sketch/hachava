@@ -1,0 +1,5 @@
+import { NextResponse } from 'next/server';
+import { assertAdminApi } from '@/lib/auth';
+import { supabaseAdmin } from '@/lib/supabase/admin';
+export async function PATCH(request: Request, context:{ params: Promise<{ id:string }> }){ if(!(await assertAdminApi())) return NextResponse.json({ error:'Unauthorized' },{ status:401 }); const { id } = await context.params; const body = await request.json(); const { error } = await supabaseAdmin.from('promotions').update(body).eq('id', id); if(error) return NextResponse.json({ error:error.message },{ status:500 }); return NextResponse.json({ ok:true }); }
+export async function DELETE(_: Request, context:{ params: Promise<{ id:string }> }){ if(!(await assertAdminApi())) return NextResponse.json({ error:'Unauthorized' },{ status:401 }); const { id } = await context.params; const { error } = await supabaseAdmin.from('promotions').delete().eq('id', id); if(error) return NextResponse.json({ error:error.message },{ status:500 }); return NextResponse.json({ ok:true }); }
